@@ -1,0 +1,27 @@
+version: "3.0"
+volumes:
+ volume_wordpress:
+ volume_php:
+networks:
+ network_baleia:
+services:
+ nginx:
+  volumes:
+   - volume_wordpress:/var/custom_www/
+   - volume_php:/run/php/
+  networks:
+   - network_baleia
+  build: ./requirements/nginx/
+  ports:
+   - 443:443
+  container_name: baleia_nginx
+  restart: on-failure
+ wordpress:
+  volumes:
+   - volume_wordpress:/var/custom_www/
+   - volume_php:/run/php/
+  networks:
+   - network_baleia
+  build: ./requirements/wordpress/
+  container_name: baleia_wordpress
+  restart: on-failure
