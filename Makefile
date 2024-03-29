@@ -12,4 +12,5 @@ usage:
 	docker system df
 fclean:
 	docker-compose -f ./srcs/docker-compose.yml down --rmi all --volumes
+delete:
 	docker system prune

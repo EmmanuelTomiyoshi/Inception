@@ -5,6 +5,13 @@ volumes:
 networks:
  network_baleia:
 services:
+ mariadb:
+  image: mariadb
+  restart: always
+  environment:
+   MARIADB_ROOT_PASSWORD: example
+  networks:
+   - network_baleia
  nginx:
   volumes:
    - volume_wordpress:/var/custom_www/
@@ -16,6 +23,8 @@ services:
    - 443:443
   container_name: baleia_nginx
   restart: on-failure
+  depends_on:
+   - wordpress
  wordpress:
   volumes:
    - volume_wordpress:/var/custom_www/
@@ -25,3 +34,5 @@ services:
   build: ./requirements/wordpress/
   container_name: baleia_wordpress
   restart: on-failure
+  depends_on:
+   - mariadb
