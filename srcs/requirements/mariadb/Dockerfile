@@ -1,10 +1,15 @@
 FROM			debian:oldstable
 
 RUN				apt update && apt upgrade -y --no-install-recommends && \
-				apt install mariadb-server -y && \
+				apt install curl mariadb-server -y && \
 				apt autoremove -y && \
 				apt autoclean && \
 				rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+#remove default MariaDB configuration
+RUN				rm /etc/mysql/my.cnf
+
+COPY			my.cnf /etc/mysql/my.cnf
 
 EXPOSE			3306
 

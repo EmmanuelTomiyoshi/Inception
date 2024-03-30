@@ -2,7 +2,7 @@ FROM			debian:oldstable
 
 # Update package repositories and install necessary packages. It's a single RUN to improve layer caching
 RUN				apt update && apt upgrade -y --no-install-recommends && \
-				apt install nginx openssl -y && \
+				apt install curl nginx openssl -y && \
 				apt autoremove -y && \
 				apt autoclean && \
 				rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -17,7 +17,9 @@ RUN				openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ke
 
 HEALTHCHECK		CMD curl --fail --silent --show-error --interval=60s "$WEBSITE" || exit 1
 
-CMD				["nginx". "-g", "daemon off;"]
+EXPOSE			443
+
+CMD				["nginx", "-g", "daemon off;"]
 
 LABEL			maintainer="etomiyos | Emmanuel Tomiyoshi"
 LABEL			description="Docker nginx image for the Inception project at 42 São Paulo."

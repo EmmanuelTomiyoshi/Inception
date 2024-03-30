@@ -1,7 +1,7 @@
 help:
 	@cat makefile_manual.txt
 up:
-	docker-compose -f ./srcs/docker-compose.yml up --build -d
+	docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up --build -d
 down:
 	docker-compose -f ./srcs/docker-compose.yml down 
 re: down up
@@ -18,4 +18,6 @@ del:
 	docker system prune --force
 del_vol:
 	docker volume prune -f
-purge: down fclean del del_vol
+del_net:
+	docker network prune --force
+purge: down fclean del del_vol del_net
