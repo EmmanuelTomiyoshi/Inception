@@ -1,7 +1,9 @@
+help:
+	@cat makefile_manual.txt
 up:
 	docker-compose -f ./srcs/docker-compose.yml up --build -d
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	docker-compose -f ./srcs/docker-compose.yml down 
 re: down up
 ls:
 	docker image ls -a
@@ -12,5 +14,8 @@ usage:
 	docker system df
 fclean:
 	docker-compose -f ./srcs/docker-compose.yml down --rmi all --volumes
-delete:
-	docker system prune
+del:
+	docker system prune --force
+del_vol:
+	docker volume prune -f
+purge: down fclean del del_vol

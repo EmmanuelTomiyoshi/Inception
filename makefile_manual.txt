@@ -1,0 +1,9 @@
+Makefile Manual Usage:
+- up		(start containers)
+- down		(stop containers)
+- re		(restart containers)
+- ls 		(list images, containers, volumes & networks)
+- usage		(system disk usage)
+- fclean	(stop and remove containers, images & volumes)
+- del		(remove unused docker data)
+- del_vol	(remove unused docker volumes)

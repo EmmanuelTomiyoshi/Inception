@@ -1,38 +1,50 @@
 version: "3.0"
+
 volumes:
+ wordpress_db_data:
+ wordpress_files:
  volume_wordpress:
  volume_php:
+
 networks:
  network_baleia:
+
 services:
  mariadb:
   image: mariadb
-  restart: always
+  container_name: baleia_mariadb
+  restart: on-failure
   environment:
    MARIADB_ROOT_PASSWORD: example
   networks:
    - network_baleia
+
  nginx:
-  volumes:
-   - volume_wordpress:/var/custom_www/
-   - volume_php:/run/php/
-  networks:
-   - network_baleia
   build: ./requirements/nginx/
-  ports:
-   - 443:443
   container_name: baleia_nginx
   restart: on-failure
-  depends_on:
-   - wordpress
- wordpress:
+  ports:
+   - 443:443
   volumes:
    - volume_wordpress:/var/custom_www/
    - volume_php:/run/php/
+   - wordpress_db_data:/var/lib/mysql
+   - wordpress_files:/var/custom_www/html
   networks:
    - network_baleia
+  depends_on:
+   - wordpress
+
+ wordpress:
   build: ./requirements/wordpress/
   container_name: baleia_wordpress
   restart: on-failure
+  volumes:
+   - volume_wordpress:/var/custom_www/
+   - volume_php:/run/php/
+   - wordpress_db_data:/var/lib/mysql
+   - wordpress_files:/var/custom_www/html
+  networks:
+   - network_baleia
   depends_on:
    - mariadb
