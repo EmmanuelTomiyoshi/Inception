@@ -11,7 +11,7 @@ define( 'DB_HOST', getenv('DB_HOST') );
 define( 'DB_CHARSET', 'utf8' );
 define( 'DB_COLLATE', '' );
 
-$table_prefix = 'wp_';
+$table_prefix = getenv('DB_USER');
 
 define( 'WP_DEBUG', false );
 
