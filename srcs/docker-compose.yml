@@ -11,7 +11,7 @@ volumes:
    device: /home/etomiyos/data/wordpress
 
 networks:
- network_baleia:
+ network:
   driver: bridge
 
 services:
@@ -23,26 +23,26 @@ services:
     DB_USER: ${DB_USER}
     DB_PASS: ${DB_PASS}
     DB_ROOT: ${DB_ROOT}
-  container_name: baleia_mariadb
+  container_name: mariadb
   restart: on-failure
   env_file:
    - .env
   networks:
-   - network_baleia
+   - network
   volumes:
   - wordpress_db_data:/var/lib/mysql
 
  nginx:
   build:
    context: ./requirements/nginx/
-  container_name: baleia_nginx
+  container_name: nginx
   restart: on-failure
   ports:
    - 443:443
   volumes:
    - wordpress_files:/var/custom_www/
   networks:
-   - network_baleia
+   - network
   depends_on:
    - wordpress
 
@@ -51,11 +51,11 @@ services:
    context: ./requirements/wordpress/
   env_file:
    - .env
-  container_name: baleia_wordpress
+  container_name: wordpress
   restart: on-failure
   volumes:
    - wordpress_files:/var/custom_www/
   networks:
-   - network_baleia
+   - network
   depends_on:
    - mariadb

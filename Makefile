@@ -1,7 +1,7 @@
 HOST 			= etomiyos.42.fr
 HTTP_HOST		= http://etomiyos.42.fr/
 
-all: up
+all: setup up
 
 #INTRO
 help:
