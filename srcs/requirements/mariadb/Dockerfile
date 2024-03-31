@@ -10,9 +10,9 @@ RUN				apt update && apt upgrade -y --no-install-recommends && \
 RUN				rm /etc/mysql/my.cnf
 
 COPY			./my.cnf /etc/mysql/my.cnf
-COPY			./script.sh /tmp/script.sh
+COPY			./script.sh ./script.sh
 
-RUN				chmod +x /tmp/script.sh
+RUN				chmod +x ./script.sh
 
 RUN				mkdir -p /run/mysqld && \ 
 				chown mysql:mysql /run/mysqld/ && \
@@ -23,9 +23,9 @@ EXPOSE			3306
 
 HEALTHCHECK		CMD curl --fail --silent --show-error --interval=60s "$HTTP_HOST" || exit 1
 
-RUN				/tmp/script.sh
 USER			mysql
 
+ENTRYPOINT		["./script.sh"]
 CMD				["mysqld_safe"]
 
 

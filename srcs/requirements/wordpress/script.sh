@@ -13,7 +13,7 @@ if ! wp core is-installed --path=/var/custom_www/ --allow-root; then
         --allow-root
 
     wp core install \
-        --url=${DOMAIN_NAME} \
+        --url=${HTTP_HOST} \
         --title=${TITLE} \
         --admin_user=${ADMIN_USER} \
         --admin_password=${ADMIN_PASS} \

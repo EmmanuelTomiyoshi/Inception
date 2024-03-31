@@ -1,7 +1,5 @@
 FROM			debian:oldstable
 
-# WORKDIR			/var/custom_www
-
 RUN				apt update && apt upgrade -y --no-install-recommends && \
 				apt install curl php7.4-mysql php7.4 php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-xml mariadb-client -y && \
 				apt autoremove -y && \
@@ -22,14 +20,14 @@ RUN				curl -o /usr/local/bin/wp \
 RUN				chown -R www-data:www-data /var/custom_www
 
 COPY			./www.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY			./script.sh /tmp/script.sh
+COPY			./script.sh ./script.sh
 COPY			./wp-config.php /var/custom_www/wp-config.php
 
-RUN				chmod +x /tmp/script.sh
+RUN				chmod +x ./script.sh
 
 HEALTHCHECK		CMD curl --fail --silent --show-error --interval=60s "$HTTP_HOST" || exit 1
 
-ENTRYPOINT		["/tmp/script.sh"]
+# ENTRYPOINT		["./script.sh"]
 
 CMD				["php-fpm7.4", "-F", "-R"]
 
