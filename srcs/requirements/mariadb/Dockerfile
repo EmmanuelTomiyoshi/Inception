@@ -21,12 +21,12 @@ RUN				mkdir -p /run/mysqld && \
 EXPOSE			3306
 
 
-HEALTHCHECK		CMD curl --fail --silent --show-error --interval=60s "$HTTP_HOST" || exit 1
+HEALTHCHECK    --interval=5s --timeout=5s --retries=5 CMD mysqladmin ping -h localhost -u root -p${DB_ROOT}
 
 USER			mysql
 
 ENTRYPOINT		["./script.sh"]
-CMD				["mysqld_safe"]
+CMD				["mysqld"]
 
 
 LABEL			maintainer="etomiyos | Emmanuel Tomiyoshi"

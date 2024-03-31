@@ -18,11 +18,6 @@ services:
  mariadb:
   build:
    context: ./requirements/mariadb/
-   args:
-    DB_NAME: ${DB_NAME}
-    DB_USER: ${DB_USER}
-    DB_PASS: ${DB_PASS}
-    DB_ROOT: ${DB_ROOT}
   container_name: mariadb
   restart: on-failure
   env_file:
@@ -31,6 +26,7 @@ services:
    - network
   volumes:
   - wordpress_db_data:/var/lib/mysql
+
 
  nginx:
   build:
@@ -44,7 +40,10 @@ services:
   networks:
    - network
   depends_on:
-   - wordpress
+    wordpress:
+      condition: service_healthy
+
+  
 
  wordpress:
   build:
@@ -58,4 +57,5 @@ services:
   networks:
    - network
   depends_on:
-   - mariadb
+    mariadb: 
+      condition: service_healthy

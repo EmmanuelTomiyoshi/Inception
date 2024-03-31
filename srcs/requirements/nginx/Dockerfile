@@ -15,7 +15,7 @@ RUN				sed -i 's/# server_tokens off;/server_tokens off;/' /etc/nginx/nginx.conf
 
 RUN				openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/key.key -out /etc/nginx/crt.crt -subj "/CN=${HTTP_HOST}"
 
-HEALTHCHECK		CMD curl --fail --silent --show-error --interval=60s "$HTTP_HOST" || exit 1
+HEALTHCHECK		CMD curl --fail --silent --show-error --interval=5s "$HTTP_HOST" || exit 1
 
 EXPOSE			443
 
